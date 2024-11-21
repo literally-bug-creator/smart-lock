@@ -1,0 +1,21 @@
+x-logging: &logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "100m"
+      max-file: "3"
+
+x-service-defaults: &service-defaults
+  <<: *logging
+  stop_grace_period: 1s
+  entrypoint:
+    - "/project/entrypoint.sh"
+
+services:
+  client:
+    build: ./client
+    volumes:
+      - "./client:/project"
+    env_file:
+      - ${CLIENT_ENV_FILE}
+    <<: *service-defaults
