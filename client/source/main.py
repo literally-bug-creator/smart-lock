@@ -1,13 +1,12 @@
 from os import getenv
 from time import sleep
-from requests import post, Response
 
 from entities import Camera, Lock
+from requests import Response, post
 from services import FaceRecognition
 
 ENDPOINT_URI = getenv("BACKEND_ENDPOINT_URI")
 COOLDOWN = int(getenv("COOLDOWN", 5))
-PIN = int(getenv("PIN", 11))
 
 
 def main():
