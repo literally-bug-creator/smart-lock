@@ -1,4 +1,7 @@
 import os
+
+from database import get_session
+from database.models import User
 from fastapi import Depends
 from fastapi_users import BaseUserManager, FastAPIUsers, IntegerIDMixin
 from fastapi_users.authentication import (
@@ -7,8 +10,6 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
-from database import get_session
-from database.models import User
 
 
 async def get_user_db(session=Depends(get_session)):
