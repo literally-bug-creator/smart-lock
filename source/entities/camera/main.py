@@ -2,24 +2,25 @@ import cv2
 
 
 class Camera:
-    def __init__(self, camera_index=0):
+    def __init__(
+        self,
+        camera_index: int,
+        img_height: int,
+        img_width: int,
+    ):
         self.capture = cv2.VideoCapture(camera_index)
-        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, img_height)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, img_width)
 
-    def get_image(self):
+    def get_frame(self):
         try:
-            ret, frame = self.capture.read()
-            if not ret:
-                print("Камера не передаёт изображение")
-                return None
+            is_success, frame = self.capture.read()
 
-            if frame is None or frame.shape[0] == 0 or frame.shape[1] == 0:
-                print("Изображение пустое или повреждено")
+        except Exception:
+            return None
+
+        else:
+            if not is_success:
                 return None
 
             return frame
-
-        except Exception as e:
-            print("Ошибка при подключении к камере:", str(e))
-            return None

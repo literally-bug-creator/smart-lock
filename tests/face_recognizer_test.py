@@ -3,7 +3,7 @@ from source.services.face_recognizer import FaceRecognition
 import cv2
 
 camera = Camera()
-frame = camera.get_image()
+frame = camera.get_frame()
 
 if frame is None:
     print("Камера не передаёт изображение.")

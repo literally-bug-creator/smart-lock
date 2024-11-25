@@ -1,18 +1,27 @@
 import cv2
-from source.entities.camera import Camera
+
 
 class FaceRecognition:
-    def __init__(self):
-        # Загрузка предобученного классификатора для обнаружения лиц
-        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    def __init__(
+        self,
+        classifier: str,
+        scale_factor: float,
+        min_neighbors: int,
+        min_size_x: int,
+        min_size_y: int,
+    ):
+        self.__classifier = cv2.CascadeClassifier(cv2.data.haarcascades + classifier)
+        self.__scale_factor = scale_factor
+        self.__min_neighbors = min_neighbors
+        self.__min_size = (min_size_x, min_size_y)
 
     def contains_face(self, img) -> bool:
-        # Преобразуем изображение в оттенки серого для классификатора
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # Ищем лица на изображении
-        faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+        grayed_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = self.__classifier.detectMultiScale(
+            image=grayed_img,
+            scaleFactor=self.__scale_factor,
+            minNeighbors=self.__min_neighbors,
+            minSize=self.__min_size,
+        )
 
-        print(f"Найдено лиц: {len(faces)}")
-
-        # Если хотя бы одно лицо найдено, возвращаем True
         return len(faces) > 0

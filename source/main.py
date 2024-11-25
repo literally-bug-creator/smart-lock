@@ -4,43 +4,48 @@ from entities import Camera, Lock
 from requests import Response, post
 
 from services import FaceRecognition
-from settings import Settings, LockSettings, CameraSettings
+from settings import (
+    CommonSettings,
+    LockSettings,
+    CameraSettings,
+    FaceRecognizerSettings,
+)
 
 
-settings = Settings()
+common_settings = CommonSettings()
 lock_settings = LockSettings()
 camera_settings = CameraSettings()
+face_recognizer_settings = FaceRecognizerSettings()
 
 
 def main():
-    camera = Camera()
-    lock = Lock(lock_settings.PIN)
-    face_recog = FaceRecognition()
+    camera = Camera(**camera_settings)
+    lock = Lock(**lock_settings)
+    face_recog = FaceRecognition(**face_recognizer_settings)
 
     while True:
-        sleep(settings.COOLDOWN)
-        img: ... = camera.get_image()
+        sleep(common_settings.COOLDOWN)
+        img: ... = camera.get_frame()
 
         if img is None:
             continue
 
-        opt_img = face_recog.optimize_img(img)
         is_contains_face = face_recog.contains_face(img)
 
         if not is_contains_face:
             continue
 
-        if request_identify(opt_img):
+        if request_identify(img):
             lock.unlock()
-            sleep(settings.COOLDOWN)
+            sleep(common_settings.COOLDOWN)
             lock.lock()
 
 
 def request_identify(img) -> bool:
-    if settings.BACKEND_ENDPOINT_URI is None:
+    if common_settings.BACKEND_ENDPOINT_URI is None:
         return False
 
-    request: Response = post(settings.BACKEND_ENDPOINT_URI, files=img)
+    request: Response = post(common_settings.BACKEND_ENDPOINT_URI, files=img)
 
     return request.status_code == 200
 
