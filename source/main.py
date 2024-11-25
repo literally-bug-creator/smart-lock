@@ -1,27 +1,30 @@
-from os import getenv
 from time import sleep
 
 from entities import Camera, Lock
 from requests import Response, post
-from services import FaceRecognition
 
-ENDPOINT_URI = getenv("BACKEND_ENDPOINT_URI")
-COOLDOWN = int(getenv("COOLDOWN", 5))
+from services import FaceRecognition
+from settings import Settings, LockSettings, CameraSettings
+
+
+settings = Settings()
+lock_settings = LockSettings()
+camera_settings = CameraSettings()
 
 
 def main():
     camera = Camera()
-    lock = Lock()
+    lock = Lock(lock_settings.PIN)
     face_recog = FaceRecognition()
 
     while True:
-        sleep(COOLDOWN)
+        sleep(settings.COOLDOWN)
         img: ... = camera.get_image()
 
         if img is None:
             continue
 
-        opt_img = face_recog.optimize(img)
+        opt_img = face_recog.optimize_img(img)
         is_contains_face = face_recog.contains_face(img)
 
         if not is_contains_face:
@@ -29,15 +32,15 @@ def main():
 
         if request_identify(opt_img):
             lock.unlock()
-            sleep(COOLDOWN)
+            sleep(settings.COOLDOWN)
             lock.lock()
 
 
 def request_identify(img) -> bool:
-    if ENDPOINT_URI is None:
+    if settings.BACKEND_ENDPOINT_URI is None:
         return False
 
-    request: Response = post(ENDPOINT_URI, files=img)
+    request: Response = post(settings.BACKEND_ENDPOINT_URI, files=img)
 
     return request.status_code == 200
 
