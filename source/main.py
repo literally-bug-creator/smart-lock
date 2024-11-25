@@ -25,7 +25,7 @@ def main():
 
     while True:
         sleep(common_settings.COOLDOWN)
-        img: ... = camera.get_frame()
+        img = camera.get_frame()
 
         if img is None:
             continue
