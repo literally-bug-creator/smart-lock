@@ -13,14 +13,17 @@ class CameraService:
             self.__capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.__settings.WIDTH)
             self.__capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.__settings.HEIGHT)
 
-        except ... as connect_exception:  # TODO: List all possible exceptions
+        except cv2.error as connect_exception:
             raise ConnectionError("Can't connect to a camera!") from connect_exception
 
     def get_frame(self):
         try:
             is_success, frame = self.__capture.read()
 
-        except ... as camera_exception:  # TODO: List all possible exceptions
+        except (
+            cv2.error,
+            AttributeError,
+        ) as camera_exception:
             raise FrameError("Error during frame capture!") from camera_exception
 
         if not is_success:
@@ -32,7 +35,13 @@ class CameraService:
         try:
             cv2.imwrite(self.__settings.IMG_PATH, frame)
 
-        except ... as convertion_exception:  # TODO: List all possible exceptions
+        except (
+            cv2.error,
+            TypeError,
+            OSError,
+            ValueError,
+            FileNotFoundError,
+        ) as convertion_exception:
             raise FrameConversionError(
                 "Frame conversion error!"
             ) from convertion_exception

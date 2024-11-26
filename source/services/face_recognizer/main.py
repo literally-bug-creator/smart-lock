@@ -16,7 +16,12 @@ class FaceRecognizerService:
                 cv2.data.haarcascades + self.__settings.CLASSIFIER
             )
 
-        except ... as connection_exception:  # TODO: List all possible exceptions
+        except (
+            cv2.error,
+            FileNotFoundError,
+            PermissionError,
+            OSError,
+        ) as connection_exception:
             raise ConnectionError(
                 "Failed to exec classifier!"
             ) from connection_exception
@@ -31,7 +36,7 @@ class FaceRecognizerService:
                 minSize=(self.__settings.MIN_SIZE_X, self.__settings.MIN_SIZE_Y),
             )
 
-        except ... as recognize_exception:
+        except (cv2.error, TypeError) as recognize_exception:
             raise RecognizeError("Failed to recognize faces!") from recognize_exception
 
         return len(faces) > 0

@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 from requests import Response, post
 
 from settings import CommonSettings
+from logs import logger
 
 from services import CameraService, FaceRecognizerService, LockService
 from services import CameraSettings, FaceRecognizerSettings, LockSettings
@@ -46,8 +47,8 @@ def request_identify(path_to_img: str, url: str) -> bool:
                 url, files={"file": ("image.png", image, "image/png")}
             )
 
-    except ... as e:
-        # TODO: Add log of exception
+    except Exception as e:
+        logger.error(str(e))
         return False
 
     return request.status_code == 200
@@ -72,10 +73,15 @@ if __name__ == "__main__":
             face_recognizer_exceptions.ConnectionError,
             lock_exceptions.ConnectionError,
         ) as connection_exception:
-            ...  # TODO: Log exception
+            logger.critical(str(connection_exception))
 
-        except ... as runtime_error:
-            ...  # TODO: Log exception
+        except (
+            camera_exceptions.FrameConversionError,
+            camera_exceptions.FrameError,
+            face_recognizer_exceptions.RecognizeError,
+            lock_exceptions.PinSetupError,
+        ) as runtime_error:
+            logger.critical(str(runtime_error))
 
         reset_rasberry_state()
         sleep(settings.COOLDOWN)
