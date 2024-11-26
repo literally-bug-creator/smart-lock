@@ -19,9 +19,9 @@ face_recognizer_settings = FaceRecognizerSettings()
 
 
 def main():
-    camera = Camera(**camera_settings)
-    lock = Lock(**lock_settings)
-    face_recog = FaceRecognition(**face_recognizer_settings)
+    camera = Camera(camera_settings.CAMERA_INDEX, camera_settings.IMG_HEIGHT, camera_settings.IMG_WIDTH)
+    lock = Lock(lock_settings.PIN)
+    face_recog = FaceRecognition(face_recognizer_settings.CLASSIFIER, face_recognizer_settings.SCALE_FACTOR, face_recognizer_settings.MIN_NEIGHBORS, face_recognizer_settings.MIN_SIZE_X, face_recognizer_settings.MIN_SIZE_Y)
 
     while True:
         sleep(common_settings.COOLDOWN)
