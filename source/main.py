@@ -1,54 +1,81 @@
 from time import sleep
+import RPi.GPIO as GPIO
 
-from entities import Camera, Lock
 from requests import Response, post
 
-from services import FaceRecognition
-from settings import (
-    CommonSettings,
-    LockSettings,
-    CameraSettings,
-    FaceRecognizerSettings,
-)
+from settings import CommonSettings
+
+from services import CameraService, FaceRecognizerService, LockService
+from services import CameraSettings, FaceRecognizerSettings, LockSettings
+from services import camera_exceptions, face_recognizer_exceptions, lock_exceptions
 
 
-common_settings = CommonSettings()
-lock_settings = LockSettings()
-camera_settings = CameraSettings()
-face_recognizer_settings = FaceRecognizerSettings()
+settings = CommonSettings()
+
+camera = CameraService(CameraSettings())
+lock = LockService(LockSettings())
+face_recognizer = FaceRecognizerService(FaceRecognizerSettings())
 
 
-def main():
-    camera = Camera(camera_settings.CAMERA_INDEX, camera_settings.IMG_HEIGHT, camera_settings.IMG_WIDTH)
-    lock = Lock(lock_settings.PIN)
-    face_recog = FaceRecognition(face_recognizer_settings.CLASSIFIER, face_recognizer_settings.SCALE_FACTOR, face_recognizer_settings.MIN_NEIGHBORS, face_recognizer_settings.MIN_SIZE_X, face_recognizer_settings.MIN_SIZE_Y)
+def main(
+    camera: CameraService, lock: LockService, face_recognizer: FaceRecognizerService
+):
+    camera.connect()
+    lock.connect()
+    face_recognizer.connect()
 
-    while True:
-        sleep(common_settings.COOLDOWN)
-        img = camera.get_frame()
+    frame = camera.get_frame()
 
-        if img is None:
-            continue
+    is_contains_face = face_recognizer.contains_face(frame)
 
-        is_contains_face = face_recog.contains_face(img)
+    if not is_contains_face:
+        return
 
-        if not is_contains_face:
-            continue
+    image_path = camera.convert_frame_to_png(settings.IMAGE_PATH, frame)
 
-        if request_identify(img):
-            lock.unlock()
-            sleep(common_settings.COOLDOWN)
-            lock.lock()
+    if request_identify(image_path):
+        lock.unlock()
+        sleep(settings.COOLDOWN)
+        lock.lock()
 
 
-def request_identify(img) -> bool:
-    if common_settings.BACKEND_ENDPOINT_URI is None:
+def request_identify(path_to_img: str, url: str) -> bool:
+    try:
+        with open(path_to_img, "rb") as image:
+            request: Response = post(
+                url, files={"file": ("image.png", image, "image/png")}
+            )
+
+    except ... as e:
+        # TODO: Add log of exception
         return False
-
-    request: Response = post(common_settings.BACKEND_ENDPOINT_URI, files=img)
 
     return request.status_code == 200
 
 
+def reset_rasberry_state():
+    GPIO.setup(GPIO.BOARD)
+    GPIO.cleanup()
+
+
 if __name__ == "__main__":
-    main()
+    camera = CameraService(CameraSettings())
+    face_recognizer = FaceRecognizerService(FaceRecognizerSettings())
+    lock = LockService(LockSettings())
+
+    while True:
+        try:
+            main(camera, face_recognizer, lock)
+
+        except (
+            camera_exceptions.ConnectionError,
+            face_recognizer_exceptions.ConnectionError,
+            lock_exceptions.ConnectionError,
+        ) as connection_exception:
+            ...  # TODO: Log exception
+
+        except ... as runtime_error:
+            ...  # TODO: Log exception
+
+        reset_rasberry_state()
+        sleep(settings.COOLDOWN)

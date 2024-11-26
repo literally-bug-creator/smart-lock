@@ -1,1 +1,2 @@
-from .main import FaceRecognition
+from .main import FaceRecognizerService
+from .settings import FaceRecognizerSettings

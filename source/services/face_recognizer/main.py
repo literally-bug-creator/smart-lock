@@ -1,27 +1,37 @@
 import cv2
+from .settings import FaceRecognizerSettings
+from .exceptions import ConnectionError, RecognizeError
 
 
-class FaceRecognition:
+class FaceRecognizerService:
     def __init__(
         self,
-        classifier: str,
-        scale_factor: float,
-        min_neighbors: int,
-        min_size_x: int,
-        min_size_y: int,
+        settings: FaceRecognizerSettings,
     ):
-        self.__classifier = cv2.CascadeClassifier(cv2.data.haarcascades + classifier)
-        self.__scale_factor = scale_factor
-        self.__min_neighbors = min_neighbors
-        self.__min_size = (min_size_x, min_size_y)
+        self.__settings = settings
+
+    def connect(self):
+        try:
+            self.__classifier = cv2.CascadeClassifier(
+                cv2.data.haarcascades + self.__settings.CLASSIFIER
+            )
+
+        except ... as connection_exception:  # TODO: List all possible exceptions
+            raise ConnectionError(
+                "Failed to exec classifier!"
+            ) from connection_exception
 
     def contains_face(self, img) -> bool:
-        grayed_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = self.__classifier.detectMultiScale(
-            image=grayed_img,
-            scaleFactor=self.__scale_factor,
-            minNeighbors=self.__min_neighbors,
-            minSize=self.__min_size,
-        )
+        try:
+            grayed_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            faces = self.__classifier.detectMultiScale(
+                image=grayed_img,
+                scaleFactor=self.__settings.SCALE_FACTOR,
+                minNeighbors=self.__settings.MIN_NEIGHBORS,
+                minSize=(self.__settings.MIN_SIZE_X, self.__settings.MIN_SIZE_Y),
+            )
+
+        except ... as recognize_exception:
+            raise RecognizeError("Failed to recognize faces!") from recognize_exception
 
         return len(faces) > 0
