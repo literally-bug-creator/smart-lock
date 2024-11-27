@@ -19,14 +19,15 @@ face_recognizer = FaceRecognizerService(FaceRecognizerSettings())
 
 
 def main(
-    camera: CameraService, lock: LockService, face_recognizer: FaceRecognizerService
+    camera: CameraService,
+    lock: LockService,
+    face_recognizer: FaceRecognizerService,
 ):
     camera.connect()
     lock.connect()
     face_recognizer.connect()
 
     frame = camera.get_frame()
-
     is_contains_face = face_recognizer.contains_face(frame)
 
     if not is_contains_face:
@@ -66,7 +67,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            main(camera, face_recognizer, lock)
+            main(camera, lock, face_recognizer)
 
         except (
             camera_exceptions.ConnectionError,
