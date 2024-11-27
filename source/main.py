@@ -56,7 +56,7 @@ def request_identify(path_to_img: str, url: str) -> bool:
 
 
 def reset_rasberry_state():
-    GPIO.setup(GPIO.BOARD)
+    GPIO.setmode(GPIO.BOARD)
     GPIO.cleanup()
 
 
