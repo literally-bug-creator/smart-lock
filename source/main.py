@@ -35,7 +35,7 @@ def main(
 
     image_path = camera.convert_frame_to_png(frame)
 
-    if request_identify(image_path):
+    if request_identify(image_path, settings.BACKEND_ENDPOINT_URI):
         lock.unlock()
         sleep(settings.COOLDOWN)
         lock.lock()
