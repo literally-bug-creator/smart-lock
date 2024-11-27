@@ -33,7 +33,7 @@ def main(
     if not is_contains_face:
         return
 
-    image_path = camera.convert_frame_to_png(settings.IMAGE_PATH, frame)
+    image_path = camera.convert_frame_to_png(frame)
 
     if request_identify(image_path):
         lock.unlock()
