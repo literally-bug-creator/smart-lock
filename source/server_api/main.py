@@ -27,6 +27,6 @@ class ServerAPI:
 
 
 def get_server_api():
-    settings = ServerAPISettings()
+    settings = ServerAPISettings()  # type: ignore
     server_api = ServerAPI(settings)
     return server_api
