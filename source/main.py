@@ -10,7 +10,6 @@ def main():
     frame = camera.get_frame()
     logger.info("Get frame!")
     if not frame_processor.contains_face(frame):
-        sleep(2)
         return
 
     frame_path = frame_processor.save_frame(frame)
@@ -24,7 +23,7 @@ def main():
 
     lock.unlock()
     logger.info("Unlock!")
-    sleep(5)
+    # sleep(5)
     logger.info("Lock!")
     lock.lock()
 
