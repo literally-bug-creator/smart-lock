@@ -23,7 +23,7 @@ def main():
 
     lock.unlock()
     logger.info("Unlock!")
-    # sleep(5)
+    sleep(0.5)
     logger.info("Lock!")
     lock.lock()
 
