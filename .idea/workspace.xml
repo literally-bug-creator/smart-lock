@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60c1ad16-46bd-4268-9273-59569c6aa8ab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/source/lock/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/lock/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/lock/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="60c1ad16-46bd-4268-9273-59569c6aa8ab" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
