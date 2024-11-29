@@ -23,7 +23,7 @@ def main():
 
     lock.unlock()
     logger.info("Unlock!")
-    sleep(0.5)
+    sleep(3)
     logger.info("Lock!")
     lock.lock()
 
@@ -35,6 +35,7 @@ if __name__ == "__main__":
     server_api = get_server_api()
 
     while True:
+        sleep(1)
         try:
             main()
 
