@@ -34,11 +34,13 @@ if __name__ == "__main__":
 
         except Exception as e:
             if not issubclass(
-                e,
-                server_api_exceptions.ServerAPIError,
-                camera_exceptions.CameraException,
-                lock_exceptions.LockException,
-                frame_processor_exceptions.FrameProcessorError,
+                type(e),
+                (
+                    server_api_exceptions.ServerAPIError,
+                    camera_exceptions.CameraException,
+                    lock_exceptions.LockException,
+                    frame_processor_exceptions.FrameProcessorError,
+                ),
             ):
                 logger.critical(str(e))
                 raise e
