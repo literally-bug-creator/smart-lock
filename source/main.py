@@ -8,23 +8,17 @@ from logs import logger
 
 def main():
     frame = camera.get_frame()
-    logger.info("Get frame!")
     if not frame_processor.contains_face(frame):
         return
 
     frame_path = frame_processor.save_frame(frame)
-    logger.info("Save frame!")
     is_identified = server_api.request_identify(frame_path)
 
     if not is_identified:
         return
 
-    logger.info("Identify face!")
-
     lock.unlock()
-    logger.info("Unlock!")
     sleep(3)
-    logger.info("Lock!")
     lock.lock()
 
 
@@ -35,7 +29,6 @@ if __name__ == "__main__":
     server_api = get_server_api()
 
     while True:
-        sleep(1)
         try:
             main()
 
