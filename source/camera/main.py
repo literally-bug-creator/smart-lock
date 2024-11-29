@@ -11,11 +11,21 @@ class Camera:
 
         try:
             self.__capture = cv2.VideoCapture(self.__settings.INDEX)
+            if not self.__capture.isOpened():
+                raise ConnectionError(f"Cannot open camera with index {self.__settings.INDEX}")
             self.__capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.__settings.WIDTH)
             self.__capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.__settings.HEIGHT)
 
-        except ... as e:  # TODO: Add all possible exceptions
-            raise ConnectionError(...) from e
+        except cv2.error as e:
+            raise ConnectionError("OpenCV error: failed to initialize camera") from e
+        except AttributeError as e:
+            raise ConnectionError("Attribute error: invalid camera or settings") from e
+        except TypeError as e:
+            raise ConnectionError("Type error: invalid parameter types") from e
+        except ValueError as e:
+            raise ConnectionError("Value error: invalid parameter value") from e
+        except Exception as e:
+            raise ConnectionError("Unknown error occurred while initializing the camera") from e
 
     def get_frame(self) -> MatLike | None:
         try:
