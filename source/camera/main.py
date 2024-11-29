@@ -18,14 +18,6 @@ class Camera:
 
         except cv2.error as e:
             raise ConnectionError("OpenCV error: failed to initialize camera") from e
-        except AttributeError as e:
-            raise ConnectionError("Attribute error: invalid camera or settings") from e
-        except TypeError as e:
-            raise ConnectionError("Type error: invalid parameter types") from e
-        except ValueError as e:
-            raise ConnectionError("Value error: invalid parameter value") from e
-        except Exception as e:
-            raise ConnectionError("Unknown error occurred while initializing the camera") from e
 
     def get_frame(self) -> MatLike | None:
         try:

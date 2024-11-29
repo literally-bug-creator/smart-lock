@@ -15,8 +15,9 @@ class FrameProcessor:
                 cv2.data.haarcascades + self.__settings.CLASSIFIER
             )
 
-        except () as e:  # TODO: Add all possible exceptions
-            raise ConnectionError("Failed to exec classifier!") from e
+
+        except (cv2.error, FileNotFoundError, ValueError) as e:
+            raise ConnectionError(f"Failed to execute classifier: {str(e)}") from e
 
     def contains_face(self, frame: MatLike) -> bool:
         try:
@@ -28,7 +29,7 @@ class FrameProcessor:
                 minSize=(self.__settings.MIN_SIZE_X, self.__settings.MIN_SIZE_Y),
             )
 
-        except () as recognize_exception:  # TODO: Add all possible exceptions
+        except cv2.error as recognize_exception:
             raise FaceRecognizeError(
                 "Failed to recognize faces!"
             ) from recognize_exception
