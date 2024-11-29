@@ -15,9 +15,9 @@ class Camera:
                 raise ConnectionError(
                     f"Cannot open camera with index {self.__settings.INDEX}"
                 )
+            self.__capture.set(cv2.CAP_PROP_FPS, 30)
             self.__capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.__settings.WIDTH)
             self.__capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.__settings.HEIGHT)
-            self.__capture.set
 
         except cv2.error as e:
             raise ConnectionError("OpenCV error: failed to initialize camera") from e
