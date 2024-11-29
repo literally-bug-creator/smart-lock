@@ -28,7 +28,9 @@ class ServerAPI:
     def _request_identify(self, frame_path):
         with open(frame_path, "rb") as frame:
             request = requests.post(
-                self.__settings.URL, files={"file": ("frame.png", frame, "image/png")}
+                self.__settings.URL,
+                files={"file": ("frame.png", frame, "image/png")},
+                verify=False,
             )
 
             return request.status_code == 200
