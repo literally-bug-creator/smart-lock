@@ -7,3 +7,6 @@ if __name__ == "__main__":
     camera = get_camera()
     lock = get_lock()
     frame_processor = get_frame_processor()
+
+    while True:
+        ...  # TODO: Implement logic
