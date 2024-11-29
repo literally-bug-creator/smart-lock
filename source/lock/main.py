@@ -1,43 +1,40 @@
 from .settings import LockSettings
 from .exceptions import ConnectionError, PinSetupError
+
 try:
     import RPi.GPIO as GPIO
-except RuntimeError as connection_exception:
-    raise ConnectionError("Lock connection error!") from connection_exception
+except RuntimeError as e:
+    raise ConnectionError("Lock connection error!") from e
 
-class LockService:
+
+class Lock:
     def __init__(self, settings: LockSettings):
         self.__settings = settings
-        self.__pin = self.__settings.PIN
-        
+
         try:
             GPIO.setmode(GPIO.BOARD)
             GPIO.setwarnings(False)
             GPIO.cleanup()
 
-        except RuntimeError as connection_exception:
-            raise ConnectionError("Lock connection error!") from connection_exception
+        except RuntimeError as e:
+            raise ConnectionError("Lock connection error!") from e
 
     def lock(self):
         try:
-            GPIO.setup(self.__pin, GPIO.IN)
+            GPIO.setup(self.__settings.PIN, GPIO.IN)
 
-        except (
-            RuntimeError,
-            ValueError,
-        ) as pin_setup_exception:
-            raise PinSetupError(
-                "Error setting the pin to the IN state!"
-            ) from pin_setup_exception
+        except (RuntimeError, ValueError) as e:
+            raise PinSetupError("Error setting the pin to the IN state!") from e
 
     def unlock(self):
         try:
-            GPIO.setup(self.__pin, GPIO.OUT)
+            GPIO.setup(self.__settings.PIN, GPIO.OUT)
 
-        except (
-            RuntimeError,
-            ValueError,
-        ) as pin_setup_exception:
-            raise PinSetupError(
-                "Error setting the pin to the OUT state!"
-            ) from pin_setup_exception
+        except (RuntimeError, ValueError) as e:
+            raise PinSetupError("Error setting the pin to the OUT state!") from e
+
+
+def get_lock():
+    settings = LockSettings()
+    lock = Lock(settings)
+    return lock
