@@ -9,6 +9,7 @@ from logs import logger
 def main():
     frame = camera.get_frame()
     if not frame_processor.contains_face(frame):
+        sleep(2)
         return
 
     frame_path = frame_processor.save_frame(frame)
