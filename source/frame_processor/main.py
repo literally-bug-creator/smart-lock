@@ -3,7 +3,7 @@ import cv2
 import cv2.data
 from cv2.typing import MatLike
 from .settings import FrameProcessorSettings
-from .exceptions import ConnectionError, FaceRecognizeError
+from .exceptions import ConnectionError, FaceRecognizeError, SaveFrameError
 
 
 class FrameProcessor:
@@ -41,7 +41,7 @@ class FrameProcessor:
         if is_saved:
             return os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
 
-        return None
+        raise SaveFrameError("Can't save frame!")
 
 
 def get_frame_processor():
