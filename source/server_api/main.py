@@ -15,11 +15,15 @@ class ServerAPI:
             return self._request_identify(frame_path)
 
         except requests.exceptions.RequestException as e:
-            raise RequestIdentifyError(f"Network or HTTP error while identifying request: {str(e)}") from e
+            raise RequestIdentifyError(
+                f"Network or HTTP error while identifying request: {str(e)}"
+            ) from e
         except ValueError as e:
             raise RequestIdentifyError(f"Invalid value error: {str(e)}") from e
         except FileNotFoundError as e:
-            raise RequestIdentifyError(f"File not found: {frame_path}. Error: {str(e)}") from e
+            raise RequestIdentifyError(
+                f"File not found: {frame_path}. Error: {str(e)}"
+            ) from e
 
     def _request_identify(self, frame_path):
         with open(frame_path, "rb") as frame:
