@@ -1,7 +1,7 @@
 import cv2
 from cv2.typing import MatLike
 
-from .exceptions import ConnectionError, GetFrameError
+from .exceptions import GetFrameError
 from .settings import CameraSettings
 
 
@@ -9,22 +9,11 @@ class Camera:
     def __init__(self, settings: CameraSettings) -> None:
         self.__settings = settings
 
-        try:
-            self.__capture = cv2.VideoCapture(self.__settings.INDEX)
-            if not self.__capture.isOpened():
-                raise ConnectionError(
-                    f"Cannot open camera with index {self.__settings.INDEX}"
-                )
-            self.__capture.set(cv2.CAP_PROP_FPS, 30)
-            self.__capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.__settings.WIDTH)
-            self.__capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.__settings.HEIGHT)
-
-        except cv2.error as e:
-            raise ConnectionError("OpenCV error: failed to initialize camera") from e
-
     def get_frame(self) -> MatLike | None:
         try:
-            is_success, frame = self.__capture.read()
+            capture = self.__get_capture()
+            is_success, frame = capture.read()
+            capture.release()
 
         except (cv2.error, AttributeError) as e:
             raise GetFrameError("Error during frame capture!") from e
@@ -34,8 +23,11 @@ class Camera:
 
         return frame
 
-    def get_index(self):
-        return self.__settings.INDEX
+    def __get_capture(self) -> cv2.VideoCapture:
+        capture = cv2.VideoCapture(self.__settings.INDEX)
+        capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.__settings.WIDTH)
+        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.__settings.HEIGHT)
+        return capture
 
 
 def get_camera():

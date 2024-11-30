@@ -8,18 +8,29 @@ from logs import logger
 
 def main():
     frame = camera.get_frame()
+
+    if frame is None:
+        logger.debug("Get 'None' frame!")
+        return
+
     if not frame_processor.contains_face(frame):
+        logger.debug("Frame does not contain faces!")
         return
 
     frame_path = frame_processor.save_frame(frame)
     is_identified = server_api.request_identify(frame_path)
 
     if not is_identified:
+        logger.debug("Face is unidentified!")
         return
 
+    logger.debug("Face is successfully identified!")
+
     lock.unlock()
+    logger.debug("Lock is opened!")
     sleep(3)
     lock.lock()
+    logger.debug("Lock is closed!")
 
 
 if __name__ == "__main__":
