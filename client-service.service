@@ -8,8 +8,8 @@ WorkingDirectory=/home/cluster/Documents/smart-lock/
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=nobody
-Group=nobody
+User=cluster
+Group=cluster
 Environment="PATH=/home/cluster/Documents/smart-lock/.venv/bin:$PATH"
 
 [Install]
