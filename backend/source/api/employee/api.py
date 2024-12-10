@@ -53,7 +53,7 @@ async def update(
     path=Path.LIST,
     status_code=status.HTTP_200_OK,
     responces={
-        status.HTTP_200_OK: {}
+        status.HTTP_200_OK: {},
         status.HTTP_401_UNAUTHORIZED: {}
     }
 )

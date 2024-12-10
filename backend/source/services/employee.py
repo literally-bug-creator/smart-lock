@@ -1,11 +1,15 @@
 from api.users import current_active_user
 from fastapi import Depends, HTTPException, status
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from database.models import User
 
 
 class EmployeeService:
     def __init__(
         self,
-        user: "User" = Depends(get_current_user),
+        user: "User" = Depends(current_active_user),
     ):
         pass
     
