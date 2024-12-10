@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
-from .settings import PREFIX, Path
+
 from ...services.employee_images import EmployeeImagesService
+from .settings import PREFIX, Path
 
 router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
 
@@ -9,9 +10,9 @@ router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
     path=Path.CREATE,
     status_code=status.HTTP_201_CREATED,
     responses={
-        status.HTTP_201_CREATED: ... # TODO add EmployeeImageModel
-        }
-    )
+        status.HTTP_201_CREATED: ...  # TODO add EmployeeImageModel
+    }
+)
 async def create(service: EmployeeImagesService = Depends()):
     return await service.create()
 
@@ -22,8 +23,8 @@ async def create(service: EmployeeImagesService = Depends()):
     responses={
         status.HTTP_200_OK: ...,  # TODO add EmployeeImageModel
         status.HTTP_404_NOT_FOUND: {}
-        }
-    )
+    }
+)
 async def read(service: EmployeeImagesService = Depends()):
     return await service.read()
 
@@ -49,6 +50,7 @@ router.get(
         }
     }
 )
+
+
 async def list(service: EmployeeImagesService = Depends()):
     return await service.list()
-

@@ -1,5 +1,6 @@
 from api.users import current_active_user
 
+
 class EmployeeImagesService:
     def __init__(
             self,
@@ -18,4 +19,3 @@ class EmployeeImagesService:
 
     async def list(self) -> ...:  # TODO: Implement service logic
         ...
-

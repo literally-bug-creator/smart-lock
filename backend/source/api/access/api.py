@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, status
-
-from .settings import PREFIX, Path
 from services.access import AccessService
 
+from .settings import PREFIX, Path
 
 router = APIRouter(prefix=PREFIX, tags=["Access"])
 

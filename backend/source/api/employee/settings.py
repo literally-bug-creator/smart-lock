@@ -10,4 +10,3 @@ class Path(StrEnum):
     UPDATE = "/{id}"
     DELETE = "/{id}"
     LIST = ""
-    
