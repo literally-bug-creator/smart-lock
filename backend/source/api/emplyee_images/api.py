@@ -7,13 +7,13 @@ router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
 
 @router.put(
     path=Path.CREATE,
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_201_CREATED: ... # TODO add EmployeeImageModel
         }
     )
 async def create(service: EmployeeImagesService = Depends()):
-    return service.create()
+    return await service.create()
 
 
 @router.get(
@@ -25,21 +25,30 @@ async def create(service: EmployeeImagesService = Depends()):
         }
     )
 async def read(service: EmployeeImagesService = Depends()):
-    return service.read()
+    return await service.read()
 
 
 @router.delete(
     path=Path.DELETE,
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_204_NO_CONTENT,
     responses={
         status.HTTP_204_NO_CONTENT: {},
         status.HTTP_404_NOT_FOUND: {}
     }
 )
 async def delete(service: EmployeeImagesService = Depends()):
-    return service.delete()
+    return await service.delete()
 
-
+router.get(
+    path=Path.LIST,
+    status_code=status.HTTP_200_OK,
+    response={
+        status.HTTP_200_OK: {
+            items: EmployeeImagesModel,
+            total: int
+        }
+    }
+)
 async def list(service: EmployeeImagesService = Depends()):
-    return service.list()
+    return await service.list()
 

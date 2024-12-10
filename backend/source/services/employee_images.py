@@ -1,3 +1,5 @@
+from api.users import current_active_user
+
 class EmployeeImagesService:
     def __init__(
             self,

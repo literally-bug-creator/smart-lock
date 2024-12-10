@@ -6,3 +6,4 @@ class Path(StrEnum):
     CREATE = ""
     READ = "/{id}"
     DELETE = "/{id}"
+    LIST = ""
