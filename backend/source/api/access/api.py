@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, status
 
-from .settings import PREFIX, Paths
+from .settings import PREFIX, Path
 from services.access import AccessService
 
 
-router = APIRouter(prefix=PREFIX, tags=["Access", ],)
+router = APIRouter(prefix=PREFIX, tags=["Access"])
 
 
 @router.get(
-    path=Paths.READ,
+    path=Path.READ,
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {},

@@ -4,6 +4,6 @@ from enum import StrEnum
 PREFIX = "/access"
 
 
-class Paths(StrEnum):
+class Path(StrEnum):
     READ = ""
     
