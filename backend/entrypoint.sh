@@ -4,6 +4,6 @@ sleep 3
 
 alembic upgrade head
 
-python3 main.py
+uv run main.py
 
 # sleep infinity

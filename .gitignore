@@ -150,6 +150,7 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+.docker_volumes
 
 # Cython debug symbols
 cython_debug/
