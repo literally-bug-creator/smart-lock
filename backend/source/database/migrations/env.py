@@ -6,6 +6,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+from pgvector.sqlalchemy.vector import VECTOR
 
 from database import get_db_url
 from database.models import Base
@@ -59,6 +60,7 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
+    connection.dialect.ischema_names['vector'] = VECTOR
     context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
@@ -84,8 +86,6 @@ async def run_async_migrations() -> None:
 
 
 def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
-
     asyncio.run(run_async_migrations())
 
 

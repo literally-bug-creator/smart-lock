@@ -12,6 +12,7 @@ function create_user_and_database() {
         CREATE DATABASE $database;
         GRANT ALL PRIVILEGES ON DATABASE $database TO $database;
         CREATE EXTENSION IF NOT EXISTS vector;
+        ALTER EXTENSION vector SET SCHEMA public;
 EOSQL
 }
 

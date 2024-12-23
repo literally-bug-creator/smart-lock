@@ -2,7 +2,7 @@
 
 sleep 3
 
-alembic upgrade head
+uv run alembic upgrade head
 
 uv run main.py
 

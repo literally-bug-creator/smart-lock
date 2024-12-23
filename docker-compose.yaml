@@ -24,7 +24,9 @@ services:
     <<: *service-defaults
 
   db:
-    image: postgres:16.4-bookworm
+    # image: postgres:16.4-bookworm
+    image: ankane/pgvector
+    # image: pgvector/pgvector:pg16
     restart: always
     env_file:
       - ${DB_ENV_FILE}
