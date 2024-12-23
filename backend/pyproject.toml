@@ -37,4 +37,5 @@ dependencies = [
     "starlette==0.41.2",
     "typing-extensions==4.12.2",
     "uvicorn==0.32.0",
+    "pgvector>=0.3.6",
 ]
