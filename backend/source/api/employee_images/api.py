@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 
-from ...services.employee_images import EmployeeImagesService
+from services.employee_images import EmployeeImagesService
+from schemas.employee_images import params, forms, responses
 from .settings import PREFIX, Path
 
 router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
@@ -10,23 +11,30 @@ router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
     path=Path.CREATE,
     status_code=status.HTTP_201_CREATED,
     responses={
-        status.HTTP_201_CREATED: ...  # TODO add EmployeeImageModel
+        status.HTTP_201_CREATED: {"model": responses.Create},
     }
 )
-async def create(service: EmployeeImagesService = Depends()):
-    return await service.create()
+async def create(
+    params: params.Create = Depends(),
+    form: forms.Create = Depends(forms.create),
+    service: EmployeeImagesService = Depends()
+):
+    return await service.create(params, form)
 
 
 @router.get(
     path=Path.READ,
     status_code=status.HTTP_200_OK,
     responses={
-        status.HTTP_200_OK: ...,  # TODO add EmployeeImageModel
+        status.HTTP_200_OK: {"model": responses.Read},
         status.HTTP_404_NOT_FOUND: {}
     }
 )
-async def read(service: EmployeeImagesService = Depends()):
-    return await service.read()
+async def read(
+    params: params.Read = Depends(),
+    service: EmployeeImagesService = Depends()
+):
+    return await service.read(params)
 
 
 @router.delete(
@@ -37,20 +45,22 @@ async def read(service: EmployeeImagesService = Depends()):
         status.HTTP_404_NOT_FOUND: {}
     }
 )
-async def delete(service: EmployeeImagesService = Depends()):
-    return await service.delete()
+async def delete(
+    params: params.Delete = Depends(),
+    service: EmployeeImagesService = Depends()
+):
+    return await service.delete(params)
 
-router.get(
+
+@router.get(
     path=Path.LIST,
     status_code=status.HTTP_200_OK,
-    response={
-        status.HTTP_200_OK: {
-            items: EmployeeImagesModel,
-            total: int
-        }
+    responses={
+        status.HTTP_200_OK: {"model": responses.List},
     }
 )
-
-
-async def list(service: EmployeeImagesService = Depends()):
-    return await service.list()
+async def list(
+    params: params.List = Depends(),
+    service: EmployeeImagesService = Depends()
+):
+    return await service.list(params)
