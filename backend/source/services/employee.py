@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from api.users import current_active_user
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 
 if TYPE_CHECKING:
     from database.models import User

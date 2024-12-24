@@ -1,10 +1,16 @@
+from fastapi import Depends
+from typing import TYPE_CHECKING
 from api.users import current_active_user
+
+
+if TYPE_CHECKING:
+    from database.models import User
 
 
 class EmployeeImagesService:
     def __init__(
             self,
-            user: "User" = Depends(get_current_user),
+            user: "User" = Depends(current_active_user),
     ):
         pass
 
