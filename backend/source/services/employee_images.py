@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from database.models import User
 
 
-class EmployeeService:
+class EmployeeImageService:
     def __init__(
         self,
         user: "User" = Depends(current_active_user),

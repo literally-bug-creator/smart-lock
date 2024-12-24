@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from services.employee_images import EmployeeImagesService
+from services.employee_images import EmployeeImageService
 from schemas.employee_images import params, forms, responses
 from .settings import PREFIX, Path
 
@@ -17,7 +17,7 @@ router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
 async def create(
     params: params.Create = Depends(),
     form: forms.Create = Depends(forms.create),
-    service: EmployeeImagesService = Depends()
+    service: EmployeeImageService = Depends()
 ):
     return await service.create(params, form)
 
@@ -32,7 +32,7 @@ async def create(
 )
 async def read(
     params: params.Read = Depends(),
-    service: EmployeeImagesService = Depends()
+    service: EmployeeImageService = Depends()
 ):
     return await service.read(params)
 
@@ -47,7 +47,7 @@ async def read(
 )
 async def delete(
     params: params.Delete = Depends(),
-    service: EmployeeImagesService = Depends()
+    service: EmployeeImageService = Depends()
 ):
     return await service.delete(params)
 
@@ -61,6 +61,6 @@ async def delete(
 )
 async def list(
     params: params.List = Depends(),
-    service: EmployeeImagesService = Depends()
+    service: EmployeeImageService = Depends()
 ):
     return await service.list(params)
