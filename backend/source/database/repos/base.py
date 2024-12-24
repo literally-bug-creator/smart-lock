@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator, Iterable
 
 from fastapi import Depends
-from source.schemas.common import ListParams, PaginationParams, SortOrder, SortParams
+from schemas.common import ListParams, PaginationParams, SortOrder, SortParams
 from sqlalchemy import exc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import make_transient
