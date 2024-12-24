@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from services.employee import EmployeeService
-from schemas.employee import params, bodies, responses
+from schemas.employees import params, bodies, responses
 
 from .settings import PREFIX, Path
 
@@ -24,13 +24,13 @@ async def create(
 @router.get(
     path=Path.READ,
     status_code=status.HTTP_200_OK,
-    responces={
+    responses={
         status.HTTP_200_OK: {"model": responses.Read},
         status.HTTP_404_NOT_FOUND: {},
     }
 )
 async def read(
-    params: params.Read,
+    params: params.Read = Depends(),
     service: EmployeeService = Depends(),
 ):
     return await service.read(params)
@@ -39,14 +39,14 @@ async def read(
 @router.patch(
     path=Path.UPDATE,
     status_code=status.HTTP_200_OK,
-    responces={
+    responses={
         status.HTTP_200_OK: {"model": responses.Update},
         status.HTTP_404_NOT_FOUND: {},
     }
 )
 async def update(
-    params: params.Update,
     body: bodies.Update,
+    params: params.Update = Depends(),
     service: EmployeeService = Depends()
 ):
     return await service.update(params, body)
@@ -55,13 +55,13 @@ async def update(
 @router.delete(
     path=Path.DELETE,
     status_code=status.HTTP_204_NO_CONTENT,
-    responces={
+    responses={
         status.HTTP_204_NO_CONTENT: {},
         status.HTTP_404_NOT_FOUND: {},
     }
 )
 async def delete(
-    params: params.Delete,
+    params: params.Delete = Depends(),
     service: EmployeeService = Depends()
 ):
     return await service.delete(params)
@@ -70,12 +70,12 @@ async def delete(
 @router.get(
     path=Path.LIST,
     status_code=status.HTTP_200_OK,
-    responces={
-        status.HTTP_200_OK: {},
-        status.HTTP_401_UNAUTHORIZED: {}
+    responses={
+        status.HTTP_200_OK: {"model": responses.List},
     }
 )
 async def list(
+    params: params.List = Depends(),
     service: EmployeeService = Depends()
-):  # TODO: Add proper args, responces and etc.
-    return await service.list()
+):
+    return await service.list(params)
