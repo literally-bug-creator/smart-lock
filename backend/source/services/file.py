@@ -1,21 +1,15 @@
-from api.users import current_active_user
 from schemas.file import params
 from file_db import FileDBClient
 from fastapi import Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from typing import AsyncGenerator, TYPE_CHECKING
+from typing import AsyncGenerator
 import os
-
-
-if TYPE_CHECKING:
-    from database.models import User
 
 
 class FileService:
     def __init__(
         self,
         file_db_client: FileDBClient = Depends(),
-        user: "User" = Depends(current_active_user),
     ):
         self.file_db_client = file_db_client
 

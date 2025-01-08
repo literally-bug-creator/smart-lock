@@ -1,6 +1,3 @@
-from typing import TYPE_CHECKING
-
-from api.users import current_active_user
 from database.repos.employee import EmployeeRepo
 from database.repos.employee_image import EmployeeImageRepo
 from database.models.employee import Employee as EmployeeModel
@@ -9,19 +6,14 @@ from schemas.employees import params, bodies, responses
 from schemas.employees.common import Employee as EmployeeScheme
 from file_db import FileDBClient
 
-if TYPE_CHECKING:
-    from database.models import User
-
 
 class EmployeeService:
     def __init__(
         self,
-        user: "User" = Depends(current_active_user),
         repo: EmployeeRepo = Depends(),
         image_repo: EmployeeImageRepo = Depends(),
         file_db: FileDBClient = Depends()
     ):
-        self.__user = user
         self.__repo = repo
         self.__image_repo = image_repo
         self.__file_db = file_db

@@ -1,11 +1,8 @@
-from typing import TYPE_CHECKING
-
 from concurrent.futures import ProcessPoolExecutor
 from io import BytesIO
 import face_recognition
 import asyncio
 
-from api.users import current_active_user
 from database.repos.employee_image import EmployeeImageRepo
 from database.models.employee_image import EmployeeImage as EmployeeImageModel
 from fastapi import Depends, HTTPException, status, UploadFile
@@ -13,8 +10,6 @@ from schemas.employee_images import params, forms, responses
 from schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 from file_db import FileDBClient
 
-if TYPE_CHECKING:
-    from database.models import User
 
 executor = ProcessPoolExecutor()
 
@@ -22,15 +17,13 @@ executor = ProcessPoolExecutor()
 class EmployeeImageService:
     def __init__(
         self,
-        user: "User" = Depends(current_active_user),
         repo: EmployeeImageRepo = Depends(),
         file_db: FileDBClient = Depends()
     ):
-        self.__user = user
         self.__repo = repo
         self.__file_db = file_db
 
-    async def create(self, params: params.Create, form: forms.Create) -> responses.Create:  # TODO: Implement vector calculate and etc.
+    async def create(self, params: params.Create, form: forms.Create) -> responses.Create:
         image_bytes = await form.file.read()
         try:
             loop = asyncio.get_running_loop()
@@ -57,6 +50,12 @@ class EmployeeImageService:
         await self.__delete_file(obj.file_key)
         await self.__repo.delete(obj)
 
+    async def delete_all(self, params: params.Delete) -> None:
+        objs = await self.__get_objects(params.employee_id)
+        for obj in objs:
+            await self.__delete_file(obj.file_key)
+            await self.__repo.delete(obj)
+
     async def list(self, params: params.List) -> responses.List:
         items, total = await self.__repo.list(params=params)
         return responses.List(
@@ -76,6 +75,12 @@ class EmployeeImageService:
         if obj is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "EmployeeImage not found")  # noqa
         return obj
+    
+    async def __get_objects(self, employee_id: int) -> EmployeeImageModel:
+        objs = await self.__repo.filter(employee_id=employee_id)
+        if objs is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, "EmployeeImages not found")  # noqa
+        return objs
 
     async def __delete_file(self, file_key: str) -> None:
         deleted = await self.__file_db.delete(file_key)
