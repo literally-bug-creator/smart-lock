@@ -6,11 +6,11 @@ from fastapi import Path, Query, Depends
 
 class BaseParams(BaseModel):
     id: int = Path()
-    employee_id: int = Query()
+    employee_id: int = Path()
 
 
-class Create(BaseParams):
-    ...
+class Create(BaseModel):
+    employee_id: int = Path()
 
 
 class Read(BaseParams):
