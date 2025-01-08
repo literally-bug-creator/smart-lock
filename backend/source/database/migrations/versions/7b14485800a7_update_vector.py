@@ -1,4 +1,4 @@
-"""message kak v git commit tipa
+"""Update Vector
 
 Revision ID: 7b14485800a7
 Revises: cef650b484e0

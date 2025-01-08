@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 
-from api.users import current_active_user
 from fastapi import Depends, HTTPException, status
 
 if TYPE_CHECKING:
@@ -10,7 +9,6 @@ if TYPE_CHECKING:
 class AccessService:
     def __init__(
         self,
-        user: "User" = Depends(current_active_user),
     ):
         pass
 

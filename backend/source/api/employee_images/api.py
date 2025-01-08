@@ -52,6 +52,21 @@ async def delete(
     return await service.delete(params)
 
 
+@router.delete(
+    path=Path.DELETE_ALL,
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        status.HTTP_204_NO_CONTENT: {},
+        status.HTTP_404_NOT_FOUND: {}
+    }
+)
+async def delete_all(
+    params: params.DeleteAll = Depends(),
+    service: EmployeeImageService = Depends()
+):
+    return await service.delete_all(params)
+
+
 @router.get(
     path=Path.LIST,
     status_code=status.HTTP_200_OK,
