@@ -5,7 +5,7 @@ import asyncio
 
 from database.repos.employee_image import EmployeeImageRepo
 from database.models.employee_image import EmployeeImage as EmployeeImageModel
-from fastapi import Depends, HTTPException, status, UploadFile
+from fastapi import Depends, HTTPException, status
 from schemas.employee_images import params, forms, responses
 from schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 from file_db import FileDBClient
@@ -30,7 +30,7 @@ class EmployeeImageService:
             vector = await loop.run_in_executor(executor, process_image_from_memory, image_bytes)
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e))
-        key = await self._save_file(form.file)
+        key = await self._save_file(image_bytes)
         obj = await self.__repo.new(
             employee_id=params.employee_id,
             file_key=key,
@@ -64,8 +64,8 @@ class EmployeeImageService:
             total=total,
         )
     
-    async def _save_file(self, file: UploadFile) -> str:
-        key = await self.__file_db.save(await file.read())
+    async def _save_file(self, file_bytes) -> str:
+        key = await self.__file_db.save(file_bytes)
         if key is None:
             raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "File storage error")  # noqa
         return key
