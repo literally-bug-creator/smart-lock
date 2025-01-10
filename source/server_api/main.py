@@ -28,7 +28,8 @@ class ServerAPI:
     def _request_identify(self, frame_path):
         with open(frame_path, "rb") as frame:
             request = requests.post(
-                self.__settings.URL,
+                url=self.__settings.URL,
+                params={"access_level": self.__settings.ACCESS_LEVEL},
                 files={"file": ("frame.png", frame, "image/png")},
                 verify=False,
             )
