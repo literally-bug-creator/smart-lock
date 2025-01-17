@@ -11,7 +11,7 @@ from schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 from file_db import FileDBClient
 
 
-executor = ProcessPoolExecutor()
+executor = ProcessPoolExecutor(max_workers=32)
 
 
 class EmployeeImageService:
