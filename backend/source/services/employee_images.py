@@ -9,9 +9,10 @@ from fastapi import Depends, HTTPException, status
 from schemas.employee_images import params, forms, responses
 from schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 from file_db import FileDBClient
+import os
 
 
-executor = ProcessPoolExecutor(max_workers=32)
+executor = ProcessPoolExecutor(max_workers=int(os.getenv("MAX_WORKERS", 4)))
 
 
 class EmployeeImageService:
