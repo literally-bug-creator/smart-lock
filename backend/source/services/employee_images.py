@@ -12,7 +12,7 @@ from file_db import FileDBClient
 import os
 
 
-executor = ProcessPoolExecutor(max_workers=int(os.getenv("MAX_WORKERS", 4)))
+executor = ProcessPoolExecutor(max_workers=int(os.getenv("MAX_WORKERS", 2)))
 
 
 class EmployeeImageService:
