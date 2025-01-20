@@ -19,5 +19,5 @@ async def webhook(
     pms: params.Webhook = Depends(),
     form: forms.Webhook = Depends(forms.webhook),
     service: AccessService = Depends(),
-) -> bool:
+) -> None:
     return await service.webhook(pms, form)

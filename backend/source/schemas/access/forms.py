@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from fastapi import File, UploadFile
-from schemas.common import (BaseForm, PydanticUploadFile,
+from shared.schemas.common import (BaseForm, PydanticUploadFile,
                                    convert_dc_to_pd)
 
 

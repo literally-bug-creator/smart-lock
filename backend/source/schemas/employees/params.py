@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from schemas.common import ListParams
+from shared.schemas.common import ListParams
 from .common import EmployeeFilters
 from fastapi import Path, Depends
 

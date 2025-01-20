@@ -29,4 +29,4 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 ENV PATH="/project/source/.venv/bin:$PATH"
-ENV PYTHONPATH /project/source:/libs:/libs/celery_service
+ENV PYTHONPATH /project/source:/libs

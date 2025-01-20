@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from schemas.common import ListParams
+from shared.schemas.common import ListParams
 from .common import EmployeeImageFilters
 from fastapi import Path, Depends
 
@@ -13,6 +13,10 @@ class Create(BaseParams):
 
 
 class Read(BaseParams):
+    id: int = Path()
+
+
+class Update(BaseParams):
     id: int = Path()
 
 

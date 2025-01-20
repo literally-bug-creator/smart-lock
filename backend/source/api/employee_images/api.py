@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 
 from services.employee_images import EmployeeImageService
-from schemas.employee_images import params, forms, responses
+from shared.schemas.employee_images import params, bodies, forms, responses
 from .settings import PREFIX, Path
 
 router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
@@ -35,6 +35,23 @@ async def read(
     service: EmployeeImageService = Depends()
 ):
     return await service.read(params)
+
+
+@router.patch(
+    path=Path.UPDATE,
+    status_code=status.HTTP_200_OK,
+    responses={
+        status.HTTP_200_OK: {"model": responses.Update},
+        status.HTTP_404_NOT_FOUND: {}
+    }
+)
+async def update(
+    #body: bodies.Update,
+    params: params.Update = Depends(),
+    form: forms.Update = Depends(forms.update),
+    service: EmployeeImageService = Depends()
+):
+    return await service.update(params, form)
 
 
 @router.delete(

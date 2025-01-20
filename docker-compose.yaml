@@ -17,16 +17,35 @@ services:
     volumes:
       - "./backend:/project"
       - "./shared:/libs/shared"
+      - "./celery_service/source:/libs/celery_service"
     env_file:
       - ${BACKEND_ENV_FILE}
     ports:
       - ${BACKEND_PORT}:8000
     <<: *service-defaults
 
+  celery_service:
+    build: ./celery_service
+    volumes:
+      - "./celery_service:/project"
+      - "./shared:/libs/shared"
+    env_file:
+      - ${CELERY_SERVICE_ENV_FILE}
+    depends_on:
+      - redis
+    <<: *service-defaults
+
+  redis:
+    image: redis:7.4.0-bookworm
+    restart: always
+    env_file:
+      - ${REDIS_ENV_FILE}
+    volumes:
+      - .docker_volumes/redis_data/:/data
+    <<: *logging
+
   db:
-    # image: postgres:16.4-bookworm
     image: ankane/pgvector
-    # image: pgvector/pgvector:pg16
     restart: always
     env_file:
       - ${DB_ENV_FILE}
