@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
-from shared.database.repos.employee_image import EmployeeImageRepo
-from shared.database.repos.employee import EmployeeRepo
+from database.repos.employee_image import EmployeeImageRepo
+from database.repos.employee import EmployeeRepo
 from schemas.access import params, forms
 from celery_service.tasks import get_face_vector
 

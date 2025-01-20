@@ -7,8 +7,8 @@ from sqlalchemy import exc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import make_transient
 
-from shared.database import get_session
-from shared.database.models import Base
+from database import get_session
+from database.models import Base
 
 
 class BaseRepo[ModelT: Base]:

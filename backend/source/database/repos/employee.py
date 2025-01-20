@@ -1,5 +1,5 @@
 from .base import BaseRepo
-from shared.database.models import Employee
+from database.models import Employee
 
 
 class EmployeeRepo(BaseRepo[Employee]):

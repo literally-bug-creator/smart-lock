@@ -1,6 +1,6 @@
-from shared.database.repos.employee import EmployeeRepo
-from shared.database.repos.employee_image import EmployeeImageRepo
-from shared.database.models.employee import Employee as EmployeeModel
+from database.repos.employee import EmployeeRepo
+from database.repos.employee_image import EmployeeImageRepo
+from database.models.employee import Employee as EmployeeModel
 from fastapi import Depends, HTTPException, status
 from schemas.employees import params, bodies, responses
 from schemas.employees.common import Employee as EmployeeScheme

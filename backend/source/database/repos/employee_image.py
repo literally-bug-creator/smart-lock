@@ -1,9 +1,9 @@
 from .base import BaseRepo
-from shared.database.models import EmployeeImage
+from database.models import EmployeeImage
 from sqlalchemy import select
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from shared.database import get_session
+from database import get_session
 import os
 
 

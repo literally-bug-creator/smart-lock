@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 
-from shared.database.repos.employee_image import EmployeeImageRepo
-from shared.database.models.employee_image import EmployeeImage as EmployeeImageModel
+from database.repos.employee_image import EmployeeImageRepo
+from database.models.employee_image import EmployeeImage as EmployeeImageModel
 from shared.schemas.employee_images import params, bodies, forms, responses
 from shared.schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 
