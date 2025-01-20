@@ -53,7 +53,6 @@ class BaseAPI:
         params = self._flatten_params(data.query_params)
         form_data = self._extract_data(data.data)
         try:
-            logging.error(f"Finally! {url=}")
             async with method(url, json=payload, data=form_data, params=params, timeout=self.timeout, headers=data.headers) as response:
                 return await self._process_response(response, data.response_type)
         except (ClientConnectionError, TimeoutError):

@@ -1,5 +1,5 @@
 from schemas.file import params
-from file_db import FileDBClient
+from shared.file_db import FileDBClient
 from fastapi import Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from typing import AsyncGenerator

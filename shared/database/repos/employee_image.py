@@ -13,9 +13,6 @@ class EmployeeImageRepo(BaseRepo[EmployeeImage]):
     def __init__(self, session: AsyncSession = Depends(get_session)):
         super().__init__(session)
         self.__max_cos_dist = float(os.getenv("MAX_COSINE_DISTANCE", 0.06))
-        from logging import getLogger
-        logger = getLogger(__name__)
-        logger.error(self.__max_cos_dist)
 
     async def get_nearest_by_vector(self, vector: list) -> EmployeeImage | None:
         return await self.session.scalar(

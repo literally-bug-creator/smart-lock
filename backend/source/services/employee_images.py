@@ -1,11 +1,11 @@
 from fastapi import Depends, HTTPException, status
 
-from database.repos.employee_image import EmployeeImageRepo
-from database.models.employee_image import EmployeeImage as EmployeeImageModel
+from shared.database.repos.employee_image import EmployeeImageRepo
+from shared.database.models.employee_image import EmployeeImage as EmployeeImageModel
 from shared.schemas.employee_images import params, bodies, forms, responses
 from shared.schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 
-from file_db import FileDBClient
+from shared.file_db import FileDBClient
 from celery_service.tasks import process_employee_image
 
 
