@@ -8,16 +8,13 @@ class BaseParams(BaseModel):
     id: int = Path()
 
 
-class Read(BaseParams):
-    ...
+class Read(BaseParams): ...
 
 
-class Update(BaseParams):
-    ...
+class Update(BaseParams): ...
 
 
-class Delete(BaseParams):
-    ...
+class Delete(BaseParams): ...
 
 
 class List(ListParams):

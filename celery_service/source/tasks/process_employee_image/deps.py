@@ -21,7 +21,9 @@ def get_worker_deps() -> WorkerDeps:
     file_db_settings = get_file_db_settings()
     file_db_client = FileDBClient(file_db_settings)
     employee_images_api = get_employee_images_api()
-    return WorkerDeps(file_db_client=file_db_client, employee_images_api=employee_images_api)
+    return WorkerDeps(
+        file_db_client=file_db_client, employee_images_api=employee_images_api
+    )
 
 
 __all__ = [

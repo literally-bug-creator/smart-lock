@@ -18,4 +18,5 @@ class EmployeeImageRepo(BaseRepo[EmployeeImage]):
         return await self.session.scalar(
             select(EmployeeImage).filter(
                 EmployeeImage.image_vector.cosine_distance(vector) < self.__max_cos_dist
-            ))
+            )
+        )

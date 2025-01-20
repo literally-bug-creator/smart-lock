@@ -15,4 +15,7 @@ class EmployeeImage(BaseModel):
 
 
 class EmployeeImageFilters(BaseModel):
-    employee_id: int | None = Query(None, validation_alias="employeeId",)
+    employee_id: int | None = Query(
+        None,
+        validation_alias="employeeId",
+    )

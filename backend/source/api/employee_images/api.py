@@ -12,12 +12,12 @@ router = APIRouter(prefix=PREFIX, tags=["EmployeeImage"])
     status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_201_CREATED: {"model": responses.Create},
-    }
+    },
 )
 async def create(
     params: params.Create = Depends(),
     form: forms.Create = Depends(forms.create),
-    service: EmployeeImageService = Depends()
+    service: EmployeeImageService = Depends(),
 ):
     return await service.create(params, form)
 
@@ -27,12 +27,11 @@ async def create(
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {"model": responses.Read},
-        status.HTTP_404_NOT_FOUND: {}
-    }
+        status.HTTP_404_NOT_FOUND: {},
+    },
 )
 async def read(
-    params: params.Read = Depends(),
-    service: EmployeeImageService = Depends()
+    params: params.Read = Depends(), service: EmployeeImageService = Depends()
 ):
     return await service.read(params)
 
@@ -42,13 +41,13 @@ async def read(
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {"model": responses.Update},
-        status.HTTP_404_NOT_FOUND: {}
-    }
+        status.HTTP_404_NOT_FOUND: {},
+    },
 )
 async def update(
     body: bodies.Update,
     params: params.Update = Depends(),
-    service: EmployeeImageService = Depends()
+    service: EmployeeImageService = Depends(),
 ):
     return await service.update(params, body)
 
@@ -56,14 +55,10 @@ async def update(
 @router.delete(
     path=Path.DELETE,
     status_code=status.HTTP_204_NO_CONTENT,
-    responses={
-        status.HTTP_204_NO_CONTENT: {},
-        status.HTTP_404_NOT_FOUND: {}
-    }
+    responses={status.HTTP_204_NO_CONTENT: {}, status.HTTP_404_NOT_FOUND: {}},
 )
 async def delete(
-    params: params.Delete = Depends(),
-    service: EmployeeImageService = Depends()
+    params: params.Delete = Depends(), service: EmployeeImageService = Depends()
 ):
     return await service.delete(params)
 
@@ -71,14 +66,10 @@ async def delete(
 @router.delete(
     path=Path.DELETE_ALL,
     status_code=status.HTTP_204_NO_CONTENT,
-    responses={
-        status.HTTP_204_NO_CONTENT: {},
-        status.HTTP_404_NOT_FOUND: {}
-    }
+    responses={status.HTTP_204_NO_CONTENT: {}, status.HTTP_404_NOT_FOUND: {}},
 )
 async def delete_all(
-    params: params.DeleteAll = Depends(),
-    service: EmployeeImageService = Depends()
+    params: params.DeleteAll = Depends(), service: EmployeeImageService = Depends()
 ):
     return await service.delete_all(params)
 
@@ -88,10 +79,9 @@ async def delete_all(
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {"model": responses.List},
-    }
+    },
 )
 async def list(
-    params: params.List = Depends(),
-    service: EmployeeImageService = Depends()
+    params: params.List = Depends(), service: EmployeeImageService = Depends()
 ):
     return await service.list(params)

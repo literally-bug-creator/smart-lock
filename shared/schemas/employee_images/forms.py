@@ -2,8 +2,7 @@ from dataclasses import dataclass, field
 
 from fastapi import File, UploadFile, Form
 
-from shared.schemas.common import (BaseForm, PydanticUploadFile,
-                                   convert_dc_to_pd)
+from shared.schemas.common import BaseForm, PydanticUploadFile, convert_dc_to_pd
 
 
 class Create(BaseForm):

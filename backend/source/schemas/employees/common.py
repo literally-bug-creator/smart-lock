@@ -20,4 +20,6 @@ class EmployeeFilters(BaseModel):
         None,
         validation_alias="fullName",
     )
-    access_level: EmployeeAccessLevel | None = Query(None, validation_alias="accessLevel")
+    access_level: EmployeeAccessLevel | None = Query(
+        None, validation_alias="accessLevel"
+    )

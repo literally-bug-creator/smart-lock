@@ -8,8 +8,7 @@ class BaseParams(BaseModel):
     employee_id: int = Path()
 
 
-class Create(BaseParams):
-    ...
+class Create(BaseParams): ...
 
 
 class Read(BaseParams):
@@ -24,8 +23,7 @@ class Delete(BaseParams):
     id: int = Path()
 
 
-class DeleteAll(BaseParams):
-    ...
+class DeleteAll(BaseParams): ...
 
 
 class List(ListParams):

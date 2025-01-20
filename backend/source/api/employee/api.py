@@ -27,7 +27,7 @@ async def create(
     responses={
         status.HTTP_200_OK: {"model": responses.Read},
         status.HTTP_404_NOT_FOUND: {},
-    }
+    },
 )
 async def read(
     params: params.Read = Depends(),
@@ -42,12 +42,12 @@ async def read(
     responses={
         status.HTTP_200_OK: {"model": responses.Update},
         status.HTTP_404_NOT_FOUND: {},
-    }
+    },
 )
 async def update(
     body: bodies.Update,
     params: params.Update = Depends(),
-    service: EmployeeService = Depends()
+    service: EmployeeService = Depends(),
 ):
     return await service.update(params, body)
 
@@ -58,11 +58,10 @@ async def update(
     responses={
         status.HTTP_204_NO_CONTENT: {},
         status.HTTP_404_NOT_FOUND: {},
-    }
+    },
 )
 async def delete(
-    params: params.Delete = Depends(),
-    service: EmployeeService = Depends()
+    params: params.Delete = Depends(), service: EmployeeService = Depends()
 ):
     return await service.delete(params)
 
@@ -72,10 +71,7 @@ async def delete(
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {"model": responses.List},
-    }
+    },
 )
-async def list(
-    params: params.List = Depends(),
-    service: EmployeeService = Depends()
-):
+async def list(params: params.List = Depends(), service: EmployeeService = Depends()):
     return await service.list(params)

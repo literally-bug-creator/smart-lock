@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from fastapi import File, UploadFile
-from shared.schemas.common import (BaseForm, PydanticUploadFile,
-                                   convert_dc_to_pd)
+from shared.schemas.common import BaseForm, PydanticUploadFile, convert_dc_to_pd
 
 
 class Webhook(BaseForm):

@@ -28,7 +28,9 @@ class Worker:
             except Exception as e:
                 logging.error(str(e))
 
-    async def _launch(self, employee_id: int, image_id: int, image_bytes: bytes) -> None:
+    async def _launch(
+        self, employee_id: int, image_id: int, image_bytes: bytes
+    ) -> None:
         image_vector = self.process_image_from_memory(image_bytes)
         await self._update_image(image_id, image_bytes, image_vector, employee_id)
 
@@ -37,24 +39,26 @@ class Worker:
         face_locations = face_recognition.face_locations(image)
         if not face_locations:
             raise ValueError("Лицо на изображении не найдено.")
-        
+
         face_encodings = face_recognition.face_encodings(image, face_locations)
         if not face_encodings:
             raise ValueError("Не удалось извлечь эмбеддинг лица.")
-        
+
         return face_encodings[0].tolist()
-    
-    async def _update_image(self, id: int, bytes: bytes, vector: list, employee_id: int):
+
+    async def _update_image(
+        self, id: int, bytes: bytes, vector: list, employee_id: int
+    ):
         key = await self.deps.file_db_client.save(bytes)
         if key is None:
             raise Exception("File storage error")  # noqa
-        
+
         params = employee_images.params.Update(
             employee_id=employee_id,
             id=id,
         )
         body = employee_images.bodies.Update(
-            image_vector = vector,
+            image_vector=vector,
             file_key=key,
         )
 

@@ -10,7 +10,7 @@ class EmployeeImagesAPI(BaseAPI):
         self,
         params: params.Update,
         body: bodies.Update,
-    ) -> ResponseData[responses.Update]: # type: ignore
+    ) -> ResponseData[responses.Update]:  # type: ignore
         data = RequestData(
             method_type="patch",
             path=f"/{params.employee_id}/images/{params.id}",
@@ -18,7 +18,7 @@ class EmployeeImagesAPI(BaseAPI):
             response_type=responses.Update,
         )
         return await self._request(data)
-    
+
     async def delete(
         self,
         params: params.Delete,
@@ -28,4 +28,3 @@ class EmployeeImagesAPI(BaseAPI):
             path=f"/{params.employee_id}/images/{params.id}",
         )
         return await self._request(data)
-

@@ -26,11 +26,11 @@ class Worker:
         face_locations = face_recognition.face_locations(image)
         if not face_locations:
             raise ValueError("Лицо на изображении не найдено.")
-        
+
         face_encodings = face_recognition.face_encodings(image, face_locations)
         if not face_encodings:
             raise ValueError("Не удалось извлечь эмбеддинг лица.")
-        
+
         return face_encodings[0].tolist()
 
 

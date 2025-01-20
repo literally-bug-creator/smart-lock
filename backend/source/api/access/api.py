@@ -10,10 +10,7 @@ router = APIRouter(prefix=PREFIX, tags=["Access"])
 @router.post(
     path=Path.WEBHOOK,
     status_code=status.HTTP_200_OK,
-    responses={
-        status.HTTP_200_OK: {},
-        status.HTTP_403_FORBIDDEN: {}
-    },
+    responses={status.HTTP_200_OK: {}, status.HTTP_403_FORBIDDEN: {}},
 )
 async def webhook(
     pms: params.Webhook = Depends(),

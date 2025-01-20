@@ -7,10 +7,7 @@ from uuid import uuid4
 
 
 class FileDBClient:
-    def __init__(
-        self,
-        settings: FileDBSettings = Depends(get_file_db_settings)
-    ):
+    def __init__(self, settings: FileDBSettings = Depends(get_file_db_settings)):
         self.settings = settings
         self.config = {
             "aws_access_key_id": settings.access_key,
@@ -21,7 +18,7 @@ class FileDBClient:
 
     async def save(self, file: bytes, filename: str | None = None) -> str | None:
         key = str(uuid4())
-        if filename and '.' in filename:
+        if filename and "." in filename:
             key = f"{key}.{filename.split('.')[-1]}"
         try:
             async with self._get_client() as client:
