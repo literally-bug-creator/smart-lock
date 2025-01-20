@@ -46,4 +46,5 @@ dependencies = [
     "face-recognition-models>=0.3.0",
     "celery[redis]>=5.4.0",
     "dlib>=19.24.6",
+    "cmake>=3.31.4",
 ]
