@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from fastapi import File, UploadFile
+from fastapi import File, UploadFile, Form
 
 from shared.schemas.common import (BaseForm, PydanticUploadFile,
                                    convert_dc_to_pd)
@@ -16,14 +16,14 @@ class _CreateDC:
 
 
 class Update(BaseForm):
-    file: PydanticUploadFile
-    vector: list
+    file: PydanticUploadFile | None = None
+    vector: list | None = None
 
 
 @dataclass
 class _UpdateDC:
-    file: UploadFile = File(...)
-    vector: list = field(default_factory=list)
+    file: UploadFile | None = File(None)
+    vector: list | None = Form(None)
 
 
 create = convert_dc_to_pd(_CreateDC, Create)

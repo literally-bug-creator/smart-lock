@@ -32,9 +32,9 @@ class EmployeeImageService:
         process_employee_image.delay(obj.employee_id, obj.id, image_bytes)
         return responses.Create(item=EmployeeImageScheme.model_validate(obj, from_attributes=True,),)
     
-    async def update(self, params: params.Update, form: forms.Update) -> responses.Update: # type: ignore
-        obj = await self.__get_object(params.id)
-        updated_obj = await self.__update_obj(obj, form)
+    async def update(self, params: params.Update, body: bodies.Update) -> responses.Update: # type: ignore
+        obj = await self.__get_object(params.id, params.employee_id)
+        updated_obj = await self.__update_obj(obj, body)
         obj = await self.__repo.update(updated_obj)
         if obj is None:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "EmployeeImage cannot be updated")  # noqa
@@ -84,9 +84,9 @@ class EmployeeImageService:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "EmployeeImages not found")  # noqa
         return objs
     
-    async def __update_obj(self, obj: EmployeeImageModel, form: forms.Update) -> EmployeeImageModel:
-        obj.image_vector = form.vector
-        obj.file_key = await self._save_file(form.file.read())
+    async def __update_obj(self, obj: EmployeeImageModel, body: bodies.Update) -> EmployeeImageModel:
+        obj.image_vector = body.image_vector
+        obj.file_key = body.file_key
         return obj
 
     async def __delete_file(self, file_key: str) -> None:

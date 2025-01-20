@@ -1,12 +1,7 @@
-import asyncio
-from concurrent.futures import ProcessPoolExecutor
 import os
 from io import BytesIO
 import face_recognition
-from shared.schemas import employee_images
-
-
-executor = ProcessPoolExecutor(max_workers=int(os.getenv("MAX_WORKERS", 2)))
+import logging
 
 
 class Worker:
@@ -15,21 +10,18 @@ class Worker:
     ):
         self.timeout = float(os.environ["PROCESS_FILE_TASK_TIMEOUT"])
 
-    async def launch(self, employee_id: int, image_id: int, image_bytes: bytes) -> None:
+    async def launch(self, image_bytes: bytes) -> None:
         try:
-            return await self._launch(employee_id, image_id, image_bytes)
-        
-        finally: return None
+            return await self._launch(image_bytes)
+        except Exception as e:
+            logging.error(e)
+            return None
 
-    async def _launch(self, employee_id: int, image_id: int, image_bytes: bytes) -> None:
-        loop = asyncio.get_running_loop()
-        image_vector = await asyncio.wait_for(
-            loop.run_in_executor(executor, self.process_image_from_memory, image_bytes),
-            timeout=self.timeout,
-        )
+    async def _launch(self, image_bytes: bytes) -> None:
+        image_vector = self.process_image_from_memory(image_bytes)
         return image_vector
 
-    def process_image_from_memory(image_bytes: bytes):
+    def process_image_from_memory(self, image_bytes: bytes):
         image = face_recognition.load_image_file(BytesIO(image_bytes))
         face_locations = face_recognition.face_locations(image)
         if not face_locations:

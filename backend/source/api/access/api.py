@@ -12,7 +12,7 @@ router = APIRouter(prefix=PREFIX, tags=["Access"])
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {},
-        status.HTTP_401_UNAUTHORIZED: {}
+        status.HTTP_403_FORBIDDEN: {}
     },
 )
 async def webhook(

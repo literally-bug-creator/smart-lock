@@ -16,7 +16,9 @@ class AccessService:
 
     async def webhook(self, pms: params.Webhook, form: forms.Webhook) -> None:  # TODO: Implement service logic
         image_bytes = await form.file.read()
-        vector = get_face_vector.delay(image_bytes)
+        vector = get_face_vector.delay(image_bytes).get()
+        if vector is None:
+            raise HTTPException(status.HTTP_404_FORBIDDEN, "No face found!")
         employee_image = await self.__repo.get_nearest_by_vector(vector=vector,)
         if employee_image is None:
             raise HTTPException(status.HTTP_403_FORBIDDEN, "NO similar employee")  # noqa

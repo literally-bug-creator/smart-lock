@@ -46,12 +46,11 @@ async def read(
     }
 )
 async def update(
-    #body: bodies.Update,
+    body: bodies.Update,
     params: params.Update = Depends(),
-    form: forms.Update = Depends(forms.update),
     service: EmployeeImageService = Depends()
 ):
-    return await service.update(params, form)
+    return await service.update(params, body)
 
 
 @router.delete(
