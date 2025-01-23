@@ -3,9 +3,12 @@ from pydantic import BaseModel, PlainSerializer
 from typing import Callable, Annotated, Any
 
 
-def convert_dc_to_pd[DC, PD: BaseModel](dc_t: type[DC], pd_t: type[PD]) -> Callable[[DC], PD]:
+def convert_dc_to_pd[DC, PD: BaseModel](
+    dc_t: type[DC], pd_t: type[PD]
+) -> Callable[[DC], PD]:
     def wrapper(data=Depends(dc_t)) -> PD:
         return pd_t.model_validate(data, from_attributes=True)
+
     return wrapper
 
 

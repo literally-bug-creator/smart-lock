@@ -11,5 +11,5 @@ class EmployeeAccessLevel(IntEnum):
 class Employee(Base):
     __tablename__ = "employees"
 
-    full_name: Mapped[str] = mapped_column()    
+    full_name: Mapped[str] = mapped_column()
     access_level: Mapped[EmployeeAccessLevel] = mapped_column()

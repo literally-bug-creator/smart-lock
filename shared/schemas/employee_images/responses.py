@@ -1,7 +1,8 @@
 from .common import EmployeeImage
-from schemas.common import CRUDResponse, ListResponse
+from shared.schemas.common import CRUDResponse, ListResponse
 
 
 Create = CRUDResponse[EmployeeImage]
 Read = CRUDResponse[EmployeeImage]
+Update = CRUDResponse[EmployeeImage]
 List = ListResponse[EmployeeImage]

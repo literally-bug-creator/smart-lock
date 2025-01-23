@@ -1,5 +1,5 @@
 from .common import Employee
-from schemas.common import CRUDResponse, ListResponse
+from shared.schemas.common import CRUDResponse, ListResponse
 
 
 Create = CRUDResponse[Employee]

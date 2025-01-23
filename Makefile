@@ -6,7 +6,11 @@ build:
 
 
 run:
-	@docker compose up -d
+	@if [ -n "$(NW)" ]; then \
+		docker compose up -d --scale celery_worker=$(NW); \
+	else \
+		docker compose up -d; \
+	fi
 
 
 stop:

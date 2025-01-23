@@ -6,4 +6,3 @@ PREFIX = "/access"
 
 class Path(StrEnum):
     WEBHOOK = ""
-    

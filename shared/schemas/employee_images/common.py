@@ -8,11 +8,14 @@ class EmployeeImage(BaseModel):
         serialization_alias="employeeId",
         validation_alias=AliasChoices("employeeId", "employee_id"),
     )
-    file_key: str = Field(
+    file_key: str | None = Field(
         serialization_alias="fileKey",
         validation_alias=AliasChoices("fileKey", "file_key"),
     )
 
 
 class EmployeeImageFilters(BaseModel):
-    employee_id: int | None = Query(None, validation_alias="employeeId",)
+    employee_id: int | None = Query(
+        None,
+        validation_alias="employeeId",
+    )

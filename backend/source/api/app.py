@@ -5,7 +5,7 @@ from api.file import router as file_router
 from fastapi import FastAPI
 
 
-app = FastAPI(title='SmartLock Backend API')
+app = FastAPI(title="SmartLock Backend API")
 
 app.include_router(access_router)
 app.include_router(employee_router)
