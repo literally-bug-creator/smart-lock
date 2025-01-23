@@ -29,7 +29,7 @@ services:
       - "./celery_service:/project"
       - "./shared:/libs/shared"
     env_file:
-      - ${BACKEND_ENV_FILE}
+      - ${CELERY_ENV_FILE}
     depends_on:
       - redis
     <<: *service-defaults
