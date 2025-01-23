@@ -29,7 +29,7 @@ class EmployeeImageService:
         if obj is None:
             raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "Database error")  # noqa
 
-        celery_client.send_task("process_employee_image", args=[obj.employee_id, obj.id, image_bytes])
+        celery_client.send_task("create_employee_image", args=[obj.employee_id, obj.id, image_bytes])
 
         return responses.Create(
             item=EmployeeImageScheme.model_validate(

@@ -1,9 +1,10 @@
-from .deps import WorkerDeps, get_worker_deps
 import os
-import face_recognition
-from shared.schemas import employee_images
-from io import BytesIO
 import logging
+from io import BytesIO
+import face_recognition
+
+from .deps import WorkerDeps, get_worker_deps
+from shared.schemas import employee_images
 
 
 class Worker:
@@ -31,23 +32,27 @@ class Worker:
     async def _launch(
         self, employee_id: int, image_id: int, image_bytes: bytes
     ) -> None:
-        image_vector = self.process_image_from_memory(image_bytes)
+        image_vector = self.get_face_vector_from_img(image_bytes)
         await self._update_image(image_id, image_bytes, image_vector, employee_id)
 
-    def process_image_from_memory(self, image_bytes: bytes):
+    def get_face_vector_from_img(self, image_bytes: bytes):
         image = face_recognition.load_image_file(BytesIO(image_bytes))
         face_locations = face_recognition.face_locations(image)
         if not face_locations:
-            raise ValueError("Лицо на изображении не найдено.")
+            raise ValueError("No face found!")
 
         face_encodings = face_recognition.face_encodings(image, face_locations)
         if not face_encodings:
-            raise ValueError("Не удалось извлечь эмбеддинг лица.")
+            raise ValueError("Emded calculation error!")
 
         return face_encodings[0].tolist()
 
     async def _update_image(
-        self, id: int, bytes: bytes, vector: list, employee_id: int
+            self,
+            id: int,
+            bytes: bytes,
+            vector: list,
+            employee_id: int
     ):
         key = await self.deps.file_db_client.save(bytes)
         if key is None:
