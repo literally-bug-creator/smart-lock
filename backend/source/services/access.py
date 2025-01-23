@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from database.repos.employee_image import EmployeeImageRepo
 from database.repos.employee import EmployeeRepo
 from schemas.access import params, forms
-from celery_service.tasks import get_face_vector
+from celery_app import client as celery_client
 
 
 class AccessService:
@@ -18,7 +18,7 @@ class AccessService:
         self, pms: params.Webhook, form: forms.Webhook
     ) -> None:
         image_bytes = await form.file.read()
-        vector = get_face_vector.delay(image_bytes).get()
+        vector = celery_client.send_task("get_face_vector", args=[image_bytes]).get()
         if vector is None:
             raise HTTPException(status.HTTP_404_FORBIDDEN, "No face found!")
         employee_image = await self.__repo.get_nearest_by_vector(

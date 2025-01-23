@@ -6,7 +6,7 @@ from shared.schemas.employee_images import params, bodies, forms, responses
 from shared.schemas.employee_images.common import EmployeeImage as EmployeeImageScheme
 
 from shared.file_db import FileDBClient
-from celery_service.tasks import process_employee_image
+from celery_app import client as celery_client
 
 
 class EmployeeImageService:
@@ -29,7 +29,8 @@ class EmployeeImageService:
         if obj is None:
             raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "Database error")  # noqa
 
-        process_employee_image.delay(obj.employee_id, obj.id, image_bytes)
+        celery_client.send_task("process_employee_image", args=[obj.employee_id, obj.id, image_bytes])
+
         return responses.Create(
             item=EmployeeImageScheme.model_validate(
                 obj,

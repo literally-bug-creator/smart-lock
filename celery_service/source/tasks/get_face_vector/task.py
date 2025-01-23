@@ -1,4 +1,4 @@
-from .worker import get_worker
+from workers.get_face_vector import get_worker
 from celery_app import CELERY
 import asyncio
 

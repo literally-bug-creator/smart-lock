@@ -17,7 +17,6 @@ services:
     volumes:
       - "./backend:/project"
       - "./shared:/libs/shared"
-      - "./celery_service/source:/libs/celery_service"
     env_file:
       - ${BACKEND_ENV_FILE}
     ports:
