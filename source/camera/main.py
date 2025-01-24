@@ -1,7 +1,6 @@
 import cv2
 from cv2.typing import MatLike
 
-from .exceptions import GetFrameError
 from .settings import CameraSettings
 
 
@@ -10,13 +9,9 @@ class Camera:
         self.__settings = settings
 
     def get_frame(self) -> MatLike | None:
-        try:
-            capture = self.__get_capture()
-            is_success, frame = capture.read()
-            capture.release()
-
-        except (cv2.error, AttributeError) as e:
-            raise GetFrameError("Error during frame capture!") from e
+        capture = self.__get_capture()
+        is_success, frame = capture.read()
+        capture.release()
 
         if not is_success:
             frame = None

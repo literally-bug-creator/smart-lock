@@ -1,14 +1,12 @@
-from camera import get_camera, camera_exceptions
-from lock import get_lock, lock_exceptions
-from server_api import get_server_api, server_api_exceptions
-from time import sleep, time
+from camera import get_camera
+from lock import get_lock
+from server_api import get_server_api
+from time import sleep
 from logs import logger
-import os
 import cv2
 
 
 def main():
-    start_time = time()
     frame = camera.get_frame()
 
     if frame is None:
@@ -18,17 +16,8 @@ def main():
     success, encoded_image = cv2.imencode(".png", frame)
     if not success:
         raise ValueError("Failed to encode frame")
-
-    # is_saved = cv2.imwrite("frame.png", frame)
-
-    # if not is_saved:
-    #     raise Exception("Can't save the frame!")
     
-    # frame_path = os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
-    is_identified = server_api.request_identify(encoded_image.tobytes())
-
-    print(time() - start_time)
-
+    is_identified = server_api.request_identify(encoded_image)
     if not is_identified:
         logger.debug("Face is unidentified!")
         return
@@ -54,15 +43,4 @@ if __name__ == "__main__":
             main()
 
         except Exception as e:
-            if not issubclass(
-                type(e),
-                (
-                    server_api_exceptions.ServerAPIError,
-                    camera_exceptions.CameraException,
-                    lock_exceptions.LockException,
-                ),
-            ):
-                logger.critical(str(e))
-                raise e
-
-            logger.warning(str(e))
+            logger.critical(str(e))
