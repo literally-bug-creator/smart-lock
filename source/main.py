@@ -15,7 +15,7 @@ def main():
         logger.debug("Get 'None' frame!")
         return
     
-    success, encoded_image = cv2.imencode("png", frame)
+    success, encoded_image = cv2.imencode(".png", frame)
     if not success:
         raise ValueError("Failed to encode frame")
 
