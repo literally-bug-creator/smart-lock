@@ -14,14 +14,18 @@ def main():
     if frame is None:
         logger.debug("Get 'None' frame!")
         return
-
-    is_saved = cv2.imwrite("frame.png", frame)
-
-    if not is_saved:
-        raise Exception("Can't save the frame!")
     
-    frame_path = os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
-    is_identified = server_api.request_identify(frame_path)
+    success, encoded_image = cv2.imencode("png", frame)
+    if not success:
+        raise ValueError("Failed to encode frame")
+
+    # is_saved = cv2.imwrite("frame.png", frame)
+
+    # if not is_saved:
+    #     raise Exception("Can't save the frame!")
+    
+    # frame_path = os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
+    is_identified = server_api.request_identify(encoded_image.to_bytes())
 
     print(time() - start_time)
 
