@@ -25,7 +25,7 @@ def main():
     #     raise Exception("Can't save the frame!")
     
     # frame_path = os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
-    is_identified = server_api.request_identify(encoded_image.to_bytes())
+    is_identified = server_api.request_identify(encoded_image.tobytes())
 
     print(time() - start_time)
 
