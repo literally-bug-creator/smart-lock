@@ -1,13 +1,14 @@
 from camera import get_camera, camera_exceptions
 from lock import get_lock, lock_exceptions
 from server_api import get_server_api, server_api_exceptions
-from time import sleep
+from time import sleep, time
 from logs import logger
 import os
 import cv2
 
 
 def main():
+    start_time = time()
     frame = camera.get_frame()
 
     if frame is None:
@@ -21,6 +22,8 @@ def main():
     
     frame_path = os.path.abspath(os.path.join(os.getcwd(), "frame.png"))
     is_identified = server_api.request_identify(frame_path)
+
+    print(time() - start_time)
 
     if not is_identified:
         logger.debug("Face is unidentified!")
