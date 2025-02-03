@@ -1,0 +1,17 @@
+[Unit]
+Description=SmartLockServer
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/make down ; /usr/bin/make run
+WorkingDirectory=/home/tfcp/smart-lock/
+StandardOutput=inherit
+StandardError=inherit
+Restart=on-failure
+RestartSec=10
+User=tfcp
+Group=tfcp
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
