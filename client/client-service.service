@@ -1,0 +1,16 @@
+[Unit]
+Description=SmartLockClient
+After=network.target
+
+[Service]
+ExecStart=/home/cluster/Documents/smart-lock/.venv/bin/python /home/cluster/Documents/smart-lock/source/main.py
+WorkingDirectory=/home/cluster/Documents/smart-lock/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=cluster
+Group=cluster
+Environment="PATH=/home/cluster/Documents/smart-lock/.venv/bin:$PATH"
+
+[Install]
+WantedBy=multi-user.target
